@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria Mandou</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ffafbd, #ffc3a0);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #e63946;
+            text-shadow: 1px 1px 2px #fff;
+            margin-bottom: 10px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 100%;
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 5px;
+        }
+        .action-button {
+            background-color: #4caf50; /* Cor verde para botões de ação */
+        }
+        .action-button:hover {
+            background-color: #45a049; /* Cor verde escuro ao passar o mouse */
+        }
+        .next-button {
+            background-color: #000; /* Cor preta para o botão "Próximo" */
+        }
+        .next-button:hover {
+            background-color: #333; /* Cor cinza escuro ao passar o mouse */
+        }
+        .motivational-quote {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #777;
+        }
+        .payment-buttons {
+            display: flex;
+            flex-direction: column; /* Coloca os botões em coluna */
+            margin-top: 10px;
+        }
+        .payment-buttons h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #e63946;
+        }
+        .payment-buttons button {
+            margin: 5px 0; /* Margem vertical entre os botões */
+            background-color: #ff6f61; /* Cor dos botões de pagamento */
+        }
+        .payment-buttons button:hover {
+            background-color: #ff4c3b; /* Cor ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <h1>Maria Mandou</h1>
+    <div class="container input-section" id="inputSection">
+        <h2>O que você quer, Maria?</h2>
+        <input type="text" id="userInput" placeholder="Escreva seu pedido aqui..." />
+        <div class="payment-buttons">
+            <h3>Selecione o Pagamento:</h3>
+            <button class="action-button" onclick="selectPayment('Fazer janta')">Fazer Janta</button>
+            <button class="action-button" onclick="selectPayment('Beijo')">Beijo</button>
+            <button class="action-button" onclick="selectPayment('Massagem')">Massagem</button>
+            <button class="action-button" onclick="selectPayment('Abraço')">Abraço</button>
+            <button class="action-button" onclick="selectPayment('Surpresa romântica')">Surpresa Romântica</button>
+            <button class="action-button" onclick="selectPayment('Noite de paixão')">Noite de Paixão</button>
+            <button class="action-button" onclick="selectPayment('Banho a dois')">Banho a Dois</button>
+            <button class="action-button" onclick="selectPayment('Mimos especiais')">Mimos Especiais</button>
+        </div>
+        <button class="next-button" onclick="showPaymentDetails()">Próximo</button>
+    </div>
+    <div class="container payment-section" id="paymentSection" style="display: none;">
+        <h2>Pagamento Selecionado:</h2>
+        <div id="paymentDetails"></div>
+        <button class="next-button" onclick="sendWhatsApp()">Concordar</button>
+    </div>
+    <div class="motivational-quote">
+        "Às vezes, um pedido é tudo o que precisamos!"  
+    </div>
+
+    <script>
+        let selectedPayment = ""; // Variável para armazenar o pagamento selecionado
+
+        // Exibe a seção de entrada ao carregar
+        document.getElementById("inputSection").style.display = "block";
+
+        function selectPayment(payment) {
+            selectedPayment = payment; // Armazena o pagamento selecionado
+            alert(`Você selecionou: ${payment}`);
+        }
+
+        function showPaymentDetails() {
+            const userInput = document.getElementById("userInput").value;
+            if (userInput.trim() === "") {
+                alert("Por favor, escreva seu pedido!");
+                return;
+            }
+
+            // Se não houver pagamento selecionado, avisa o usuário
+            if (!selectedPayment) {
+                alert("Por favor, selecione um pagamento!");
+                return;
+            }
+
+            // Atualiza o DOM
+            document.getElementById("paymentDetails").innerText = `Maria mandou: "${userInput}".\n\nPagamento selecionado: ${selectedPayment}`;
+            document.getElementById("inputSection").style.display = "none";
+            document.getElementById("paymentSection").style.display = "block";
+        }
+
+        function sendWhatsApp() {
+            const userInput = document.getElementById("userInput").value;
+            const message = `**Contrato de Pedido**\n\n**Pedido:** ${userInput}\n**Pagamento:** ${selectedPayment}\n\nPor favor, confirme se está de acordo.`;
+            const whatsappNumber = "3491723701"; // Número atualizado
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+            window.open(whatsappLink, '_blank');
+            alert("Enviando mensagem para o WhatsApp...");
+        }
+    </script>
+</body>
+</html>
